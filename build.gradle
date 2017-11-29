@@ -8,5 +8,27 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")
+//    compile("org.springframework.boot:spring-boot-starter-web")
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '1.5.6.RELEASE'
+
+//////     https://mvnrepository.com/artifact/org.springframework/spring-webmvc
+//    compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.9.RELEASE'
+////
+//////     https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter
+//    compile group: 'org.springframework.boot', name: 'spring-boot-starter', version: '1.5.4.RELEASE'
+////
+//////     https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-tomcat
+//    compile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version: '1.5.4.RELEASE'
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
 }
+
+bootRun.environment([
+        "WELCOME_MESSAGE": "hello",
+])
+
+test.environment([
+        "WELCOME_MESSAGE": "Hello from test",
+])
