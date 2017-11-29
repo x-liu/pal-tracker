@@ -62,10 +62,9 @@
 #        path: build-output/pal-tracker.jar
 #        environment_variables:
 #          WELCOME_MESSAGE: "Hello from Concourse"
-
-- name: build
+  - name: build
   plan:
-  -get: pal-tracker
+  - get: pal-tracker
     trigger: true
   - get: version
     params: {bump: patch}
