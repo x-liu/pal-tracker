@@ -19,12 +19,12 @@ run:
   - -exc
   - |
 
-  export DEBIAN_FRONTEND="noninteractive"
+    export DEBIAN_FRONTEND="noninteractive"
 
-  apt-get update
-
-  apt-get -y install mysql-server
-  service mysql start
+    apt-get update
+  
+    apt-get -y install mysql-server
+    service mysql start
 
     cd pal-tracker
     mysql -uroot < databases/tracker/create_databases.sql
