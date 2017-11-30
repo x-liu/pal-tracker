@@ -4,5 +4,7 @@ applications:
   path: build/libs/pal-tracker.jar
 #  random-route: true
   host: al-pal-tracker
+  services:
+    - tracker-database
 #  env:
 #    WELCOME_MESSAGE: Hello from Cloud Foundry
