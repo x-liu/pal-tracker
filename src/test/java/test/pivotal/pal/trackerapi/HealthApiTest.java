@@ -30,7 +30,7 @@ public class HealthApiTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 
         DocumentContext healthJson = parse(response.getBody());
-        System.out.println("health JSON what is in here->>>>>>>> " + healthJson.jsonString());
+//        System.out.println("health JSON what is in here->>>>>>>> " + healthJson.jsonString());
         assertThat(healthJson.read("$.status", String.class)).isEqualTo("UP");
         assertThat(healthJson.read("$.db.status", String.class)).isEqualTo("UP");
         assertThat(healthJson.read("$.diskSpace.status", String.class)).isEqualTo("UP");
