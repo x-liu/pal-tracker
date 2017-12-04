@@ -6,5 +6,6 @@ applications:
   host: al-pal-tracker
   services:
     - tracker-database
-#  env:
+  env:
 #    WELCOME_MESSAGE: Hello from Cloud Foundry
+    SECURITY_FORCE_HTTPS: true

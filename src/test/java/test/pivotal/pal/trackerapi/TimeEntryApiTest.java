@@ -8,8 +8,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -28,13 +30,17 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SpringBootTest(classes = PalTrackerApplication.class, webEnvironment = RANDOM_PORT)
 public class TimeEntryApiTest {
 
-    @Autowired
+    @LocalServerPort
+    private String port;
     private TestRestTemplate restTemplate;
 
     private TimeEntry timeEntry = new TimeEntry(123, 456, LocalDate.parse("2017-01-08"), 8);
 
     @Before
     public void setUp() throws Exception {
+        RestTemplateBuilder builder = new RestTemplateBuilder().rootUri("http://localhost:" + port)
+                .basicAuthorization("user", "password");
+        restTemplate = new TestRestTemplate(builder);
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setUrl(System.getenv("SPRING_DATASOURCE_URL"));
 
@@ -117,7 +123,8 @@ public class TimeEntryApiTest {
         Long id = createTimeEntry();
 
 
-        ResponseEntity<String> deleteResponse = restTemplate.exchange("/time-entries/" + id, HttpMethod.DELETE, null, String.class);
+        ResponseEntity<String> deleteResponse = restTemplate.exchange("/time-entries/" + id,
+                HttpMethod.DELETE, null, String.class);
 
 
         assertThat(deleteResponse.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
@@ -128,10 +135,9 @@ public class TimeEntryApiTest {
 
     private Long createTimeEntry() {
         HttpEntity<TimeEntry> entity = new HttpEntity<>(timeEntry);
-        //
-        System.out.println("Test starts here ->>>>" + timeEntry.getDate());
-        //
-        ResponseEntity<TimeEntry> response = restTemplate.exchange("/time-entries", HttpMethod.POST, entity, TimeEntry.class);
+
+        ResponseEntity<TimeEntry> response = restTemplate.exchange("/time-entries", HttpMethod.POST,
+                entity, TimeEntry.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
